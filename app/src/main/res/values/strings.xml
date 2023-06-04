@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Proton</string>
+    <string name="email">Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="title_login">Masuk Sekarang</string>
+    <string name="message_login_page">Aplikasi distribusi UMKM Indonesia</string>
+    <string name="desc_register">Belum punya akun?</string>
+    <string name="buttonToRegister">Daftar</string>
+
+    <string name="name">Nama</string>
+    <string name="phone_number">Nomor Hp</string>
+    <string name="confirm_password">Konfirmasi Kata Sandi</string>
+    <string name="button_next">Selanjutnya</string>
+    <string name="message_register">Lengkapi data dibawah ya!</string>
+    <string name="name_business">Nama Usaha</string>
+    <string name="type_business">Jenis Usaha</string>
+    <string name="category_business">Kategori</string>
+    <string name="address_business">Alamat</string>
+    <string name="register_button">Daftar Sekarang</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
