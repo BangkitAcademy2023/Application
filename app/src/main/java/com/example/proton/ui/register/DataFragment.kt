@@ -1,21 +1,30 @@
 package com.example.proton.ui.register
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import com.example.proton.R
+import com.example.proton.databinding.FragmentDataBinding
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-
-class DataFragment : Fragment() {
+class DataFragment : Fragment(), View.OnClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var _binding: FragmentDataBinding? = null
+    private val binding get() = _binding!!
+
+    private var _name: String? = null
+    private var _phoneNumber: String? = null
+    private var _email: String? = null
+    private var _password: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,28 +37,69 @@ class DataFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_data, container, false)
+    ): View {
+        _binding = FragmentDataBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val btnNext: Button = view.findViewById(R.id.registerButton)
+        btnNext.setOnClickListener(this)
+
+        if (arguments != null) {
+            _name = arguments?.getString(NAME)
+            _phoneNumber = arguments?.getString(PHONE_NUMBER)
+            _email = arguments?.getString(EMAIL)
+            _password = arguments?.getString(PASSWORD)
+
+        }
+    }
+
+    override fun onClick(v: View) {
+        if (v.id == binding.registerButton.id) {
+            val nameBusiness = binding.nameBusinessEditText.text.toString()
+            val typeBusiness = binding.typeBusinessEditText.text.toString()
+            val categoryBusiness = binding.categoryEditText.text.toString()
+            val addressBusiness = binding.addressEditText.text.toString()
+
+            when{
+                nameBusiness.isEmpty() ->{
+                    binding.nameBusinessEditTextLayout.error = "Masukkan Nama Usaha"
+                }
+                typeBusiness.isEmpty() ->{
+                    binding.typeBusinessEditTextLayout.error = "Masukkan Nomor Telephone"
+                }
+                categoryBusiness.isEmpty() -> {
+                    binding.categoryEditTextLayout.error = "Masukkan Email"
+                }
+                addressBusiness.isEmpty() ->{
+                    binding.addressEditTextLayout.error = "Masukkan Password"
+                }
+
+                else->{
+                    Log.i("DATA", "INI ADALAH NAMA = $_name")
+                    Log.i("DATA", "INI ADALAH NOMOR TLP = $_phoneNumber")
+                    Log.i("DATA", "INI ADALAH EMAIL = $_email")
+                    Log.i("DATA", "INI ADALAH PASSWORD = $_password")
+
+                }
+
+            }
+        }
+    }
+
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DataFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DataFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        var NAME = "name"
+        var PHONE_NUMBER = "phone_number"
+        var EMAIL = "email"
+        var PASSWORD = "password"
     }
 }

@@ -131,7 +131,7 @@
             app:startIconTint="@color/primary"
             app:boxStrokeColor="@color/primary">
 
-            <EditText
+            <com.example.proton.ui.custom.EmailEditText
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
             app:startIconTint="@color/primary"
             app:boxStrokeColor="@color/primary">
 
-            <EditText
+            <com.example.proton.ui.custom.PasswordEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
             app:startIconTint="@color/primary"
             app:boxStrokeColor="@color/primary">
 
-            <EditText
+            <com.example.proton.ui.custom.PasswordEditText
                 android:id="@+id/confirmPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
