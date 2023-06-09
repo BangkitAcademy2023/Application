@@ -31,5 +31,12 @@
     <string name="message_empty">Masukkan %s dahulu ya</string>
     <string name="button_empty">Tambah %s</string>
 
+    <string name="cari">Cari ..</string>
+
+    <string name="product_name">Nama Produk</string>
+    <string name="product_category">Kategori Produk</string>
+    <string name="stock">Jumlah stok : 0</string>
+    <string name="type_product">Tipe</string>
+
 
 </resources>

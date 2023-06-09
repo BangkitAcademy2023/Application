@@ -10,19 +10,26 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
+import com.example.proton.MainActivity
 import com.example.proton.R
+import com.example.proton.dataStore
 import com.example.proton.databinding.ActivityLoginBinding
+import com.example.proton.model.UserModel
+import com.example.proton.model.UserPreferences
+import com.example.proton.ui.DataSourceManager
 import com.example.proton.ui.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var loginDataSource: LoginDataSource
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupView()
+        setupViewModel()
         setupAction()
     }
 
@@ -41,11 +48,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-//        loginDataSource = ViewModelProvider(
-//            this,
-//            DataSourceManager(UserPreferences.getInstance(dataStore))
-//        )[LoginDataSource::class.java]
-//
+        loginDataSource = ViewModelProvider(
+            this,
+            DataSourceManager(UserPreferences.getInstance(dataStore))
+        )[LoginDataSource::class.java]
+
 //        loginDataSource.getUser().observe(this) { user ->
 //            this.user = user
 //        }
@@ -69,6 +76,19 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     else -> {
+                        loginDataSource.saveUser(UserModel("niko",email,password, true, "token"))
+                        AlertDialog.Builder(this@LoginActivity).apply {
+                            setTitle("Yeah!")
+                            setMessage("Anda berhasil login!")
+                            setPositiveButton("Lanjut") { _, _ ->
+                                val intent = Intent(context, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                                finish()
+                            }
+                            create()
+                            show()
+                        }
 //                        val loginRequestBody = LoginRequestBody(email, password)
 //                        loginViewModel.postLogin(loginRequestBody)
 //                        loginViewModel.loginPost.observe(this){ result ->

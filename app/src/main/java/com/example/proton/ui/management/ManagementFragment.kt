@@ -1,12 +1,10 @@
 package com.example.proton.ui.management
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import com.example.proton.R
 import com.example.proton.databinding.FragmentManagementBinding
 
@@ -24,6 +22,7 @@ class ManagementFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentManagementBinding.inflate(layoutInflater, container, false)
+
         return binding?.root
     }
 
@@ -45,6 +44,7 @@ class ManagementFragment : Fragment() {
             R.drawable.empty_product
         } else {
             R.drawable.empty_store
+
         }
 
         binding?.apply {
@@ -54,7 +54,6 @@ class ManagementFragment : Fragment() {
             emptyImageView.setImageResource(imageRes)
         }
     }
-
 
 
     override fun onDestroy() {

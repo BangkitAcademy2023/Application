@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.StringRes
 import com.example.proton.R
-import com.example.proton.databinding.ActivityMainBinding
+import com.example.proton.adapter.SectionsPagerAdapter
 import com.example.proton.databinding.ActivityManagementBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
