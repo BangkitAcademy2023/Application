@@ -38,5 +38,29 @@
     <string name="stock">Jumlah stok : 0</string>
     <string name="type_product">Tipe</string>
 
+    <string name="store_name">Nama Toko</string>
+    <string name="store_address">Alamat</string>
+    <string name="store_number">Nomor Hp</string>
+
+    <string name="date">Tanggal</string>
+    <string name="message_profit">Total Keuntungan Produk</string>
+    <string name="profit">Total Profit</string>
+
+    <string name="code">Kode</string>
+    <string name="category">Kategori</string>
+    <string name="stock_product">Stok</string>
+    <string name="type">Tipe</string>
+    <string name="exp_date">Tanggal Expired</string>
+    <string name="price">Harga</string>
+    <string name="selling_price">Harga Jual</string>
+
+    <string name="value_stock">%s pcs</string>
+
+    <string name="list_store">List Toko</string>
+    <string name="list_product">List Produk</string>
+
+
+
+
 
 </resources>

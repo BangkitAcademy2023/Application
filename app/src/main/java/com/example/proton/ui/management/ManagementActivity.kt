@@ -6,9 +6,11 @@ import androidx.annotation.StringRes
 import com.example.proton.R
 import com.example.proton.adapter.SectionsPagerAdapter
 import com.example.proton.databinding.ActivityManagementBinding
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
+@Suppress("DEPRECATION")
 class ManagementActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityManagementBinding
@@ -16,6 +18,14 @@ class ManagementActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24)
+            title = ""
+        }
+
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         binding.viewPager.adapter = sectionsPagerAdapter
@@ -26,6 +36,11 @@ class ManagementActivity : AppCompatActivity() {
         }.attach()
 
         supportActionBar?.elevation = 0f
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     companion object {

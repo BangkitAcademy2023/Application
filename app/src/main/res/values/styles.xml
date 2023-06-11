@@ -2,4 +2,11 @@
     <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <!-- Ubah warna ikon menjadi putih -->
+        <item name="android:tint">@android:color/white</item>
+        <!-- Hilangkan teks di sebelah ikon -->
+        <item name="titleTextAppearance">@color/primary</item>
+    </style>
 </resources>

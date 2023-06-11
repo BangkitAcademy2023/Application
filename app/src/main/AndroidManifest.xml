@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Proton"
         tools:targetApi="31">
         <activity
+            android:name=".ui.managementDetailProduct.ManagementDetailProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.recommendation.RecommendationActivity"
             android:exported="false" />
         <activity
