@@ -1,6 +1,6 @@
 package com.example.proton.adapter
 
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proton.R
-import com.example.proton.model.ProductModel
 import com.example.proton.model.StoreModel
+import com.example.proton.ui.managementDetailStore.ManagementDetailStoreActivity
 
 class ListStoreAdapter(private val listData: List<StoreModel>) : RecyclerView.Adapter<ListStoreAdapter.ViewHolder>() {
 
@@ -24,6 +24,12 @@ class ListStoreAdapter(private val listData: List<StoreModel>) : RecyclerView.Ad
         holder.photo.setImageResource(data.image)
         holder.address.text = data.address
         holder.number.text = data.noHp
+
+        holder.itemView.setOnClickListener{
+            val intentDetail = Intent(holder.itemView.context, ManagementDetailStoreActivity::class.java)
+            intentDetail.putExtra(ManagementDetailStoreActivity.NAME_STORE, data.name)
+            holder.itemView.context.startActivity(intentDetail)
+        }
 
     }
 

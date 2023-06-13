@@ -14,5 +14,6 @@ data class ProductModel(
     val type: String,
     val dateExp: String,
     val price: Int,
-    val sellingPrice: Int
+    val sellingPrice: Int,
+    val listStore: List<StoreModel>
 ): Parcelable

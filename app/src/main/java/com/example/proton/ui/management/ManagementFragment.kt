@@ -1,11 +1,15 @@
 package com.example.proton.ui.management
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,11 +17,16 @@ import com.example.proton.R
 import com.example.proton.adapter.ListProductAdapter
 import com.example.proton.adapter.ListStoreAdapter
 import com.example.proton.databinding.FragmentManagementBinding
-import com.example.proton.model.FakeProductDataSource
-import com.example.proton.model.FakeStoreDataSource
-
+import com.example.proton.model.ProductModel
+import com.example.proton.model.StoreModel
+import com.example.proton.ui.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class ManagementFragment : Fragment() {
+
+    private val managementViewModel: ManagementViewModel by viewModels{
+        ViewModelFactory.getInstance()
+    }
 
     private var tabName: String? = null
 
@@ -38,50 +47,70 @@ class ManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tabName = arguments?.getString(ARG_TAB)
-        val dataProduct = FakeProductDataSource.dummyProduct
-        val dataStore = FakeStoreDataSource.dummyStore
 
-
-
-        if(tabName == TAB_PRODUCT){
-            if(dataProduct.isEmpty()){
-                val emptyText = getString(R.string.empty_management, "produk")
-                val messageText = getString(R.string.message_empty, "produk")
-                val buttonText = getString(R.string.button_empty, "produk")
-                val imageRes = R.drawable.empty_product
-
-                bindingSetting(emptyText, messageText, buttonText, imageRes)
-
-            }else{
+        if (tabName == TAB_PRODUCT) {
+            val dataProduct: List<ProductModel> = managementViewModel.groupedProduct.value.values.flatten()
+            if (dataProduct.isEmpty()) {
+                bindingSetting(
+                    getString(R.string.empty_management, "produk"),
+                    getString(R.string.message_empty, "produk"),
+                    getString(R.string.button_empty, "produk"),
+                    R.drawable.empty_product
+                )
+            } else {
                 disabelEmptyLayout()
-                binding?.viewCard?.setData(ListProductAdapter(dataProduct))
-
+                searching(true)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    managementViewModel.groupedProduct.collect { groupedProduct ->
+                        binding?.viewCard?.setData(ListProductAdapter(groupedProduct.values.flatten()))
+                    }
+                }
             }
-        }else{
-            if(dataStore.isEmpty()){
-
-                val emptyText = getString(R.string.empty_management, "toko")
-                val messageText = getString(R.string.message_empty, "toko")
-                val buttonText = getString(R.string.button_empty, "toko")
-                val imageRes = R.drawable.empty_store
-
-                bindingSetting(emptyText, messageText, buttonText, imageRes)
-
-            }else{
+        } else {
+            val dataStore: List<StoreModel> = managementViewModel.groupedStore.value.values.flatten()
+            if (dataStore.isEmpty()) {
+                bindingSetting(
+                    getString(R.string.empty_management, "toko"),
+                    getString(R.string.message_empty, "toko"),
+                    getString(R.string.button_empty, "toko"),
+                    R.drawable.empty_store
+                )
+            } else {
                 disabelEmptyLayout()
-                binding?.viewCard?.setData(ListStoreAdapter(dataStore))
+                searching(false)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    managementViewModel.groupedStore.collect { groupedStore ->
+                        binding?.viewCard?.setData(ListStoreAdapter(groupedStore.values.flatten()))
+                    }
+                }
             }
-
         }
     }
 
-    private fun disabelEmptyLayout(){
-        binding?.apply {
-            emptyLayout.visibility = View.GONE
-        }
+    private fun searching(status: Boolean) {
+        binding?.searchEditText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Kosongkan atau biarkan sesuai kebutuhan
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Panggil fungsi search() di ManagementViewModel
+                Log.i("search", s.toString())
+                if (status) managementViewModel.searchProduct(s.toString())
+                else managementViewModel.searchStore(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Kosongkan atau biarkan sesuai kebutuhan
+            }
+        })
     }
 
-    private fun bindingSetting(emptyText: String, messageText: String, buttonText: String, imageRes: Int){
+    private fun disabelEmptyLayout() {
+        binding?.emptyLayout?.visibility = View.GONE
+    }
+
+    private fun bindingSetting(emptyText: String, messageText: String, buttonText: String, imageRes: Int) {
         binding?.apply {
             emptyTextView.text = emptyText
             messageTextView.text = messageText
@@ -90,10 +119,8 @@ class ManagementFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun RecyclerView.setData(adapter: RecyclerView.Adapter<*>) {
         this.adapter = adapter
-        adapter.notifyDataSetChanged()
     }
 
     private fun showRecyclerList() {
@@ -107,6 +134,7 @@ class ManagementFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
     }
 
     companion object {

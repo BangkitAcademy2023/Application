@@ -9,4 +9,10 @@
         <!-- Hilangkan teks di sebelah ikon -->
         <item name="titleTextAppearance">@color/primary</item>
     </style>
+
+    <style name="AlertDialogButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@color/primary</item>
+        <!-- Add any other desired attributes for the buttons -->
+    </style>
 </resources>

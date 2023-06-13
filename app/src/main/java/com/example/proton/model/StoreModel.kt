@@ -10,5 +10,4 @@ data class StoreModel(
     val name: String,
     val address: String,
     val noHp: String
-
 ): Parcelable

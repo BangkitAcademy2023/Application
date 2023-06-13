@@ -15,12 +15,13 @@ class ManagementDetailProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementDetailProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val nameProduct = intent.getStringExtra(NAME_PRODUCT)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24)
-            title = ""
+            title = nameProduct
         }
 
         val product = if(Build.VERSION.SDK_INT >= 33){
@@ -52,8 +53,8 @@ class ManagementDetailProductActivity : AppCompatActivity() {
         return true
     }
 
-
     companion object {
         const val DATA_PRODUCT = "DATA_PRODUCT"
+        const val NAME_PRODUCT = "NAME_PRODUCT"
     }
 }

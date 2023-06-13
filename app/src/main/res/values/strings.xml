@@ -44,6 +44,7 @@
 
     <string name="date">Tanggal</string>
     <string name="message_profit">Total Keuntungan Produk</string>
+    <string name="message_profit_inStore">Total Keuntungan</string>
     <string name="profit">Total Profit</string>
 
     <string name="code">Kode</string>
@@ -53,14 +54,19 @@
     <string name="exp_date">Tanggal Expired</string>
     <string name="price">Harga</string>
     <string name="selling_price">Harga Jual</string>
+    <string name="sold">Terjual</string>
+    <string name="margin">Keuntungan</string>
 
     <string name="value_stock">%s pcs</string>
 
     <string name="list_store">List Toko</string>
     <string name="list_product">List Produk</string>
 
+    <string name="add_product_dropdown">Tambah produk yang belum ada </string>
+    <string name="klik_ini">klik ini</string>
 
-
+    <string name="add_product">Tambah Produk</string>
+    <string name="add_store">Tambah Toko</string>
 
 
 </resources>

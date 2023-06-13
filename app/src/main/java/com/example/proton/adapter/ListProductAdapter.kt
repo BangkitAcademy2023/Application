@@ -29,11 +29,9 @@ class ListProductAdapter(private val listData: List<ProductModel>) : RecyclerVie
         holder.itemView.setOnClickListener{
             val intentDetail = Intent(holder.itemView.context, ManagementDetailProductActivity::class.java)
             intentDetail.putExtra(ManagementDetailProductActivity.DATA_PRODUCT, data)
+            intentDetail.putExtra(ManagementDetailProductActivity.NAME_PRODUCT, data.name)
             holder.itemView.context.startActivity(intentDetail)
         }
-
-
-
     }
 
     override fun getItemCount() = listData.size
