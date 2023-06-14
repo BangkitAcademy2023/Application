@@ -4,11 +4,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proton.R
+import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.ActivityManagementDetailProductBinding
-import com.example.proton.model.ProductModel
 import com.example.proton.utils.DefaultFormat
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "INFERRED_TYPE_VARIABLE_INTO_POSSIBLE_EMPTY_INTERSECTION")
 class ManagementDetailProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityManagementDetailProductBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class ManagementDetailProductActivity : AppCompatActivity() {
         }
 
         val product = if(Build.VERSION.SDK_INT >= 33){
-            intent.getParcelableExtra(DATA_PRODUCT, ProductModel::class.java)
+            intent.getParcelableExtra(DATA_PRODUCT, DataItem::class.java)
         }else{
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(DATA_PRODUCT)
@@ -34,17 +34,24 @@ class ManagementDetailProductActivity : AppCompatActivity() {
 
         if(product != null){
             binding.date.text = DefaultFormat.getFormattedDate()
-            binding.totalProfit.text = DefaultFormat.formatRupiah(product.price.toLong())
+            binding.totalProfit.text = DefaultFormat.formatRupiah(margin(product.jumlahProduk!!,product.harga!!,product.hargaJual!!,
+                product.hargaJual
+            ).toLong())
 
-            binding.valueName.text = product.name
-            binding.valueCode.text = product.code
-            binding.valueStock.text = getString(R.string.value_stock, product.stock.toString())
-            binding.valueCatergory.text = product.category
-            binding.valueType.text = product.type
-            binding.valueExpDate.text = product.dateExp
-            binding.valuePrice.text = DefaultFormat.formatRupiah(product.price.toLong())
-            binding.valueSellingPrice.text = DefaultFormat.formatRupiah(product.sellingPrice.toLong())
+            binding.valueName.text = product.namaProduk
+            binding.valueCode.text = product.kodeProduk
+            binding.valueStock.text = getString(R.string.value_stock, product.jumlahProduk.toString())
+            binding.valueCatergory.text = product.kategori
+            binding.valueType.text = product.tipe
+            binding.valueExpDate.text = product.expiredDate
+            binding.valuePrice.text = DefaultFormat.formatRupiah(product.harga.toLong())
+            binding.valueSellingPrice.text = DefaultFormat.formatRupiah(product.hargaJual.toLong())
         }
+
+    }
+
+    private fun margin(stok: Int, harga: Int, hargaJual: Int, terjual: Int) : Int{
+        return (stok - terjual)*(hargaJual - harga)
 
     }
 

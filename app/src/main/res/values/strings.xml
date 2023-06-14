@@ -68,5 +68,7 @@
     <string name="add_product">Tambah Produk</string>
     <string name="add_store">Tambah Toko</string>
 
+    <string name="detail_store">Detail Toko</string>
+
 
 </resources>

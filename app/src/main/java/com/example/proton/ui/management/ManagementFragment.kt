@@ -1,5 +1,6 @@
 package com.example.proton.ui.management
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,19 +8,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proton.MainActivity
 import com.example.proton.R
 import com.example.proton.adapter.ListProductAdapter
 import com.example.proton.adapter.ListStoreAdapter
+import com.example.proton.data.remote.Result
+import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.FragmentManagementBinding
 import com.example.proton.model.ProductModel
 import com.example.proton.model.StoreModel
+import com.example.proton.model.UserModel
 import com.example.proton.ui.ViewModelFactory
+import com.example.proton.ui.product.ProductActivity
+import com.example.proton.ui.recommendation.RecommendationActivity
+import com.example.proton.ui.store.StoreActivity
 import kotlinx.coroutines.launch
 
 class ManagementFragment : Fragment() {
@@ -31,18 +41,17 @@ class ManagementFragment : Fragment() {
     private var tabName: String? = null
 
     private var _binding: FragmentManagementBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentManagementBinding.inflate(layoutInflater, container, false)
         showRecyclerList()
-        return binding?.root
+        return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,10 +69,31 @@ class ManagementFragment : Fragment() {
             } else {
                 disabelEmptyLayout()
                 searching(true)
-                viewLifecycleOwner.lifecycleScope.launch {
-                    managementViewModel.groupedProduct.collect { groupedProduct ->
-                        binding?.viewCard?.setData(ListProductAdapter(groupedProduct.values.flatten()))
+                managementViewModel.getAllProduct()
+                managementViewModel.listProduct.observe(this){ result ->
+                    when (result) {
+                        is Result.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+                        is Result.Success -> {
+                            binding.progressBar.visibility = View.GONE
+                            val data = result.data
+                            if(data.data != null){
+                                val listProduct = data.data
+                                binding.viewCard.setData(ListProductAdapter(listProduct as List<DataItem>))
+                            }
+
+                        }
+                        is Result.Error -> {
+                            binding.progressBar.visibility = View.GONE
+                            Toast.makeText(requireContext(), "Data Failed", Toast.LENGTH_SHORT).show()
+                        }
                     }
+                }
+
+                binding.fabButton.setOnClickListener {
+                    val intent = Intent(requireContext(), ProductActivity::class.java)
+                    startActivity(intent)
                 }
             }
         } else {
@@ -80,15 +110,20 @@ class ManagementFragment : Fragment() {
                 searching(false)
                 viewLifecycleOwner.lifecycleScope.launch {
                     managementViewModel.groupedStore.collect { groupedStore ->
-                        binding?.viewCard?.setData(ListStoreAdapter(groupedStore.values.flatten()))
+                        binding.viewCard.setData(ListStoreAdapter(groupedStore.values.flatten()))
                     }
+                }
+
+                binding.fabButton.setOnClickListener {
+                    val intent = Intent(requireContext(), RecommendationActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
     }
 
     private fun searching(status: Boolean) {
-        binding?.searchEditText?.addTextChangedListener(object : TextWatcher {
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Kosongkan atau biarkan sesuai kebutuhan
             }
@@ -107,11 +142,11 @@ class ManagementFragment : Fragment() {
     }
 
     private fun disabelEmptyLayout() {
-        binding?.emptyLayout?.visibility = View.GONE
+        binding.emptyLayout.visibility = View.GONE
     }
 
     private fun bindingSetting(emptyText: String, messageText: String, buttonText: String, imageRes: Int) {
-        binding?.apply {
+        binding.apply {
             emptyTextView.text = emptyText
             messageTextView.text = messageText
             addButton.text = buttonText
@@ -125,9 +160,9 @@ class ManagementFragment : Fragment() {
 
     private fun showRecyclerList() {
         val layoutManager = LinearLayoutManager(requireActivity())
-        binding?.viewCard?.layoutManager = layoutManager
+        binding.viewCard.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
-        binding?.viewCard?.addItemDecoration(itemDecoration)
+        binding.viewCard.addItemDecoration(itemDecoration)
     }
 
 

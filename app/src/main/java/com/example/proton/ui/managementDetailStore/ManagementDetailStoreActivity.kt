@@ -6,22 +6,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Spinner
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proton.R
+import com.example.proton.adapter.ListProductAdapter
+import com.example.proton.data.remote.Result
+import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.ActivityManagementDetailStoreBinding
+import com.example.proton.ui.ViewModelFactory
 import com.example.proton.ui.custom.CustomArrayAdapter
+import com.example.proton.ui.login.LoginViewModel
 import com.example.proton.ui.product.ProductActivity
 import com.example.proton.utils.DefaultFormat
 
 @Suppress("DEPRECATION")
 class ManagementDetailStoreActivity : AppCompatActivity() {
 
+    private lateinit var detailStoreViewModel: DetailStoreViewModel
+
     private lateinit var binding: ActivityManagementDetailStoreBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementDetailStoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        detailStoreViewModel = viewModels<DetailStoreViewModel> {
+            ViewModelFactory.getInstance()
+        }.value
 
         val nameStore = intent.getStringExtra(NAME_STORE)
 
@@ -47,38 +60,62 @@ class ManagementDetailStoreActivity : AppCompatActivity() {
         builder.setTitle("Nama Produk")
 
 
-        val items = arrayOf("Pilihan 1", "Pilihan 2", "Pilihan 3")
-        val adapter = CustomArrayAdapter(this, items)
+        detailStoreViewModel.getAllProduct()
+        detailStoreViewModel.listProduct.observe(this){ result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    val data = result.data
+                    if(data.data != null){
+                        val listProduct = data.data
+                        val items = listProduct.map { it?.namaProduk ?: "pilihan" }.toTypedArray()
+                        val adapter = CustomArrayAdapter(this, items)
 
 
-        val builderView = LayoutInflater.from(this).inflate(R.layout.content_dropdown, null)
-        val spinner = builderView.findViewById<Spinner>(R.id.spinner)
-        spinner.adapter = adapter
-        builder.setView(builderView)
+                        val builderView = LayoutInflater.from(this).inflate(R.layout.content_dropdown, null)
+                        val spinner = builderView.findViewById<Spinner>(R.id.spinner)
+                        spinner.adapter = adapter
+                        builder.setView(builderView)
 
 
-        builder.setPositiveButton("Simpan") { dialog, which ->
-            // Action to be taken when the OK button is clicked
-            // For example, get the selected item from the Spinner
-            val selectedItem = spinner.selectedItem.toString()
-            // Do something with the selected item
-            dialog.dismiss()
+                        builder.setPositiveButton("Simpan") { dialog, which ->
+                            // Action to be taken when the OK button is clicked
+                            // For example, get the selected item from the Spinner
+                            val selectedItem = spinner.selectedItem.toString()
+                            // Do something with the selected item
+                            dialog.dismiss()
+                        }
+
+                        builder.setNegativeButton("Batal") { dialog, which ->
+                            // Action to be taken when the Cancel button is clicked
+                            // For example, do something or close the dialog
+                            dialog.dismiss()
+                        }
+
+                        val dialog = builder.create()
+                        dialog.show()
+
+                        val positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                        positiveButton?.setTextAppearance(R.style.AlertDialogButtonStyle)
+
+                        val negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                        negativeButton?.setTextAppearance(R.style.AlertDialogButtonStyle)
+
+                    }
+
+                }
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Data Failed", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
-        builder.setNegativeButton("Batal") { dialog, which ->
-            // Action to be taken when the Cancel button is clicked
-            // For example, do something or close the dialog
-            dialog.dismiss()
-        }
 
-        val dialog = builder.create()
-        dialog.show()
 
-        val positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-        positiveButton?.setTextAppearance(R.style.AlertDialogButtonStyle)
-
-        val negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-        negativeButton?.setTextAppearance(R.style.AlertDialogButtonStyle)
     }
 
     fun addProductRegular(view: View){

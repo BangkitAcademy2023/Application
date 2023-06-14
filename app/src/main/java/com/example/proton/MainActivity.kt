@@ -41,9 +41,15 @@ class MainActivity : AppCompatActivity() {
             } else {
                 binding = ActivityMainBinding.inflate(layoutInflater)
                 setContentView(binding.root)
+
+                binding.email.text = user.email
             }
         }
 
+    }
+
+    fun logOut(view: View) {
+        mainDataSource.logout()
     }
 
     fun clickToManage(view: View) {

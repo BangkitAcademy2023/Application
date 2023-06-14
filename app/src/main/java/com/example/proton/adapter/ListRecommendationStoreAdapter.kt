@@ -12,7 +12,7 @@ import com.example.proton.model.StoreModel
 import com.example.proton.ui.managementDetailStore.ManagementDetailStoreActivity
 import com.example.proton.ui.store.StoreActivity
 
-class ListStoreAdapter(private val listData: List<StoreModel>) : RecyclerView.Adapter<ListStoreAdapter.ViewHolder>() {
+class ListRecommendationStoreAdapter(private val listData: List<StoreModel>) : RecyclerView.Adapter<ListRecommendationStoreAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int) = ViewHolder(
         LayoutInflater.from(viewGroup.context).inflate(R.layout.item_store, viewGroup, false)
@@ -26,11 +26,9 @@ class ListStoreAdapter(private val listData: List<StoreModel>) : RecyclerView.Ad
         holder.address.text = data.address
         holder.number.text = data.noHp
 
-
-
         holder.itemView.setOnClickListener{
-            val intentDetail = Intent(holder.itemView.context, ManagementDetailStoreActivity::class.java)
-            intentDetail.putExtra(ManagementDetailStoreActivity.NAME_STORE, data.name)
+            val intentDetail = Intent(holder.itemView.context, StoreActivity::class.java)
+            intentDetail.putExtra(StoreActivity.DATA_STORE, data)
             holder.itemView.context.startActivity(intentDetail)
         }
 

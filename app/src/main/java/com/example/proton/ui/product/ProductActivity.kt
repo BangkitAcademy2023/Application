@@ -2,6 +2,7 @@ package com.example.proton.ui.product
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.proton.R
 import com.example.proton.databinding.ActivityProductBinding
 import com.example.proton.ui.register.IdentityFragment
@@ -38,4 +39,5 @@ class ProductActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
 }

@@ -1,14 +1,23 @@
 package com.example.proton.ui.management
 
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.proton.data.Repository
+import androidx.lifecycle.viewModelScope
+import com.example.proton.data.remote.Repository
+import com.example.proton.data.remote.response.ResponseProduct
 import com.example.proton.model.ProductModel
 import com.example.proton.model.StoreModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import com.example.proton.data.remote.Result
 
 class ManagementViewModel(private val repository: Repository): ViewModel() {
+
+    lateinit var listProduct: LiveData<Result<ResponseProduct>>
+
+    fun getAllProduct() {
+        listProduct = repository.getAllProduct()
+    }
 
     private val _groupedProduct = MutableStateFlow(
         repository.getProduct()

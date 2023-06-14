@@ -86,6 +86,7 @@ class IdentityFragment : Fragment(), View.OnClickListener {
                     bundle.putString(DataFragment.PHONE_NUMBER, phoneNumber)
                     bundle.putString(DataFragment.EMAIL, email)
                     bundle.putString(DataFragment.PASSWORD, password)
+                    bundle.putString(DataFragment.CONFIRM_PASSWORD, passwordConfirmation)
                     dataFragment.arguments = bundle
                     val fragmentManager = parentFragmentManager
                     fragmentManager.beginTransaction().apply {
