@@ -11,6 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.proton.data.remote.Result
 import com.example.proton.data.remote.response.ResponseLogin
+import com.example.proton.data.remote.response.ResponsePredict
 import com.example.proton.data.remote.response.ResponseProduct
 import com.example.proton.data.remote.response.ResponseRegister
 import com.example.proton.data.remote.response.ResponseUploadProduct
@@ -68,6 +69,9 @@ class Repository(
     }
 
 
+
+
+
     private val dataProduct = FakeProductDataSource.dummyProduct.toMutableList()
     private val dataStore = FakeStoreDataSource.dummyStore.toMutableList()
 
@@ -96,7 +100,7 @@ class Repository(
         private var instance: Repository? = null
 
         fun getInstance(
-            apiService: ApiService
+            apiService: ApiService,
         ): Repository =
             instance ?: synchronized(this) {
                 instance ?: Repository(apiService).also { instance = it }

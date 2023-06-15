@@ -58,44 +58,49 @@ class ManagementFragment : Fragment() {
         tabName = arguments?.getString(ARG_TAB)
 
         if (tabName == TAB_PRODUCT) {
-            val dataProduct: List<ProductModel> = managementViewModel.groupedProduct.value.values.flatten()
-            if (dataProduct.isEmpty()) {
-                bindingSetting(
-                    getString(R.string.empty_management, "produk"),
-                    getString(R.string.message_empty, "produk"),
-                    getString(R.string.button_empty, "produk"),
-                    R.drawable.empty_product
-                )
-            } else {
-                disabelEmptyLayout()
-                searching(true)
-                managementViewModel.getAllProduct()
-                managementViewModel.listProduct.observe(this){ result ->
-                    when (result) {
-                        is Result.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                        }
-                        is Result.Success -> {
-                            binding.progressBar.visibility = View.GONE
-                            val data = result.data
-                            if(data.data != null){
+            managementViewModel.getAllProduct()
+            managementViewModel.listProduct.observe(this){ result ->
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        val data = result.data
+                        if(data.data != null){
+                            if(data.data.isEmpty()){
+                                bindingSetting(
+                                    getString(R.string.empty_management, "produk"),
+                                    getString(R.string.message_empty, "produk"),
+                                    getString(R.string.button_empty, "produk"),
+                                    R.drawable.empty_product
+                                )
+
+                                binding.addButton.setOnClickListener{
+                                    val intent = Intent(requireContext(), ProductActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            }else{
+                                disabelEmptyLayout()
+                                searching(true)
                                 val listProduct = data.data
                                 binding.viewCard.setData(ListProductAdapter(listProduct as List<DataItem>))
-                            }
 
-                        }
-                        is Result.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(requireContext(), "Data Failed", Toast.LENGTH_SHORT).show()
+                                binding.fabButton.setOnClickListener {
+                                    val intent = Intent(requireContext(), ProductActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            }
                         }
                     }
-                }
-
-                binding.fabButton.setOnClickListener {
-                    val intent = Intent(requireContext(), ProductActivity::class.java)
-                    startActivity(intent)
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(requireContext(), "Data Failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+
+
         } else {
             val dataStore: List<StoreModel> = managementViewModel.groupedStore.value.values.flatten()
             if (dataStore.isEmpty()) {
@@ -152,6 +157,7 @@ class ManagementFragment : Fragment() {
             addButton.text = buttonText
             emptyImageView.setImageResource(imageRes)
         }
+        binding.fabButton.visibility = View.GONE
     }
 
     private fun RecyclerView.setData(adapter: RecyclerView.Adapter<*>) {

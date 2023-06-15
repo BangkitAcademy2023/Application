@@ -337,7 +337,8 @@
                     android:layout_marginVertical="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="20dp"
+                    android:onClick="addStore">
 
                     <TextView
                         android:layout_width="wrap_content"

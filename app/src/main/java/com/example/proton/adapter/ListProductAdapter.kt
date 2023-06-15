@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proton.R
 import com.example.proton.data.remote.response.DataItem
+import com.example.proton.model.PredictionResult
 import com.example.proton.model.ProductModel
 import com.example.proton.ui.managementDetailProduct.ManagementDetailProductActivity
 
@@ -27,9 +28,26 @@ class ListProductAdapter(private val listData: List<DataItem>) : RecyclerView.Ad
         holder.stock.text = data.jumlahProduk.toString()
         holder.type.text = data.tipe
 
+        val productModel = ProductModel(
+            id = data.id!!.toLong(),
+            name = data.namaProduk!!,
+            code = data.kodeProduk!!,
+            image = R.drawable.ori,
+            stock = data.jumlahProduk!!,
+            category = data.kategori!!,
+            type = data.tipe!!,
+            dateExp = data.expiredDate!!,
+            price = data.harga!!,
+            sellingPrice = data.hargaJual!!,
+            predict = PredictionResult(11,15,19,25,"Hasil Prediksi")
+
+        )
+
+
+
         holder.itemView.setOnClickListener{
             val intentDetail = Intent(holder.itemView.context, ManagementDetailProductActivity::class.java)
-//            intentDetail.putExtra(ManagementDetailProductActivity.DATA_PRODUCT, data)
+            intentDetail.putExtra(ManagementDetailProductActivity.DATA_PRODUCT, productModel)
             intentDetail.putExtra(ManagementDetailProductActivity.NAME_PRODUCT, data.namaProduk)
             holder.itemView.context.startActivity(intentDetail)
         }

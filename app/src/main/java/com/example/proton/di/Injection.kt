@@ -7,6 +7,7 @@ object Injection {
 
     fun provideRepository(): Repository {
         val apiService = ApiConfig.getApiService()
+
         return Repository.getInstance(apiService)
     }
 }
