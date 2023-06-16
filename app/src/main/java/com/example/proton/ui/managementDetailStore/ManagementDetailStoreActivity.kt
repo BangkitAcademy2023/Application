@@ -11,13 +11,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proton.R
-import com.example.proton.adapter.ListProductAdapter
 import com.example.proton.data.remote.Result
-import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.ActivityManagementDetailStoreBinding
 import com.example.proton.ui.ViewModelFactory
 import com.example.proton.ui.custom.CustomArrayAdapter
-import com.example.proton.ui.login.LoginViewModel
 import com.example.proton.ui.product.ProductActivity
 import com.example.proton.utils.DefaultFormat
 
@@ -81,17 +78,12 @@ class ManagementDetailStoreActivity : AppCompatActivity() {
                         builder.setView(builderView)
 
 
-                        builder.setPositiveButton("Simpan") { dialog, which ->
-                            // Action to be taken when the OK button is clicked
-                            // For example, get the selected item from the Spinner
+                        builder.setPositiveButton("Simpan") { dialog, _ ->
                             val selectedItem = spinner.selectedItem.toString()
-                            // Do something with the selected item
                             dialog.dismiss()
                         }
 
-                        builder.setNegativeButton("Batal") { dialog, which ->
-                            // Action to be taken when the Cancel button is clicked
-                            // For example, do something or close the dialog
+                        builder.setNegativeButton("Batal") { dialog, _ ->
                             dialog.dismiss()
                         }
 

@@ -1,30 +1,15 @@
 package com.example.proton.ui.store
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.proton.R
-import com.example.proton.adapter.ListStoreAdapter
-import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.ActivityStoreBinding
 import com.example.proton.model.StoreModel
-import com.example.proton.ui.ViewModelFactory
-import com.example.proton.ui.managementDetailProduct.ManagementDetailProductActivity
-import com.example.proton.ui.recommendation.RecommendationViewModel
-import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class StoreActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStoreBinding
-    private lateinit var storeViewModel: RecommendationViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStoreBinding.inflate(layoutInflater)

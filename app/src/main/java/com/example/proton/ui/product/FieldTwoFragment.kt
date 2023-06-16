@@ -3,30 +3,21 @@ package com.example.proton.ui.product
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.proton.MainActivity
 import com.example.proton.R
 import com.example.proton.data.remote.Result
-import com.example.proton.databinding.FragmentFieldOneBinding
 import com.example.proton.databinding.FragmentFieldTwoBinding
 import com.example.proton.model.ProductRequestBody
-import com.example.proton.model.RegisterRequestBody
 import com.example.proton.ui.ViewModelFactory
-import com.example.proton.ui.management.ManagementActivity
-import com.example.proton.ui.managementDetailStore.ManagementDetailStoreActivity
-import com.example.proton.ui.register.DataFragment
-import com.example.proton.ui.register.RegisterActivity
-import com.example.proton.ui.register.RegisterViewModel
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -38,6 +29,7 @@ private const val ARG_PARAM2 = "param2"
 
 
 class FieldTwoFragment : Fragment(), View.OnClickListener {
+
 
     private val productViewModel: ProductViewModel by viewModels {
         ViewModelFactory.getInstance()
@@ -57,6 +49,8 @@ class FieldTwoFragment : Fragment(), View.OnClickListener {
     private var _price: String? = null
     private var _sellingPrice: String? = null
     private var _expDate: String? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +72,8 @@ class FieldTwoFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         val btnAddProduct: Button = view.findViewById(R.id.addProductButton)
         btnAddProduct.setOnClickListener(this)
+
+
 
         datePickerButton = binding.datePickerEdittext
 
@@ -201,6 +197,7 @@ class FieldTwoFragment : Fragment(), View.OnClickListener {
         var CODE_PRODUCT = "code_product"
         var PRICE_PRODUCT = "price_product"
         var SELLING_PRICE_PRODUCT = "selling_price_product"
+
     }
 
 }

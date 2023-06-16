@@ -7,14 +7,12 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proton.R
-import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.ActivityManagementDetailProductBinding
 import com.example.proton.model.ProductModel
-import com.example.proton.ui.product.ProductActivity
 import com.example.proton.ui.recommendation.RecommendationActivity
 import com.example.proton.utils.DefaultFormat
 
-@Suppress("DEPRECATION", "INFERRED_TYPE_VARIABLE_INTO_POSSIBLE_EMPTY_INTERSECTION")
+@Suppress("DEPRECATION")
 class ManagementDetailProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityManagementDetailProductBinding
     @RequiresApi(Build.VERSION_CODES.O)
@@ -22,6 +20,8 @@ class ManagementDetailProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityManagementDetailProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         val nameProduct = intent.getStringExtra(NAME_PRODUCT)
 
         setSupportActionBar(binding.toolbar)
@@ -41,8 +41,8 @@ class ManagementDetailProductActivity : AppCompatActivity() {
 
         if(product != null){
             binding.date.text = DefaultFormat.getFormattedDate()
-            binding.totalProfit.text = DefaultFormat.formatRupiah(margin(product.stock,product.price,product.sellingPrice,
-                0
+            binding.totalProfit.text = DefaultFormat.formatRupiah(margin(
+                product.price, product.sellingPrice, 0
             ).toLong())
 
             binding.valueName.text = product.name
@@ -50,14 +50,14 @@ class ManagementDetailProductActivity : AppCompatActivity() {
             binding.valueStock.text = getString(R.string.value_stock, product.stock.toString())
             binding.valueCatergory.text = product.category
             binding.valueType.text = product.type
-            binding.valueExpDate.text = DefaultFormat.dateFormat(product.dateExp.toString())
+            binding.valueExpDate.text = DefaultFormat.dateFormat(product.dateExp)
             binding.valuePrice.text = DefaultFormat.formatRupiah(product.price.toLong())
             binding.valueSellingPrice.text = DefaultFormat.formatRupiah(product.sellingPrice.toLong())
         }
 
     }
 
-    private fun margin(stok: Int, harga: Int, hargaJual: Int, terjual: Int) : Int{
+    private fun margin(harga: Int, hargaJual: Int, terjual: Int) : Int{
         return terjual *(hargaJual - harga)
 
     }

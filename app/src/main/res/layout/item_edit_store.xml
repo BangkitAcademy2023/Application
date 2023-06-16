@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20 pcs"
+                android:text="0 pcs"
                 android:textSize="16sp"
                 android:paddingEnd="16dp" />
 

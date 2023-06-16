@@ -3,14 +3,10 @@ package com.example.proton.ui.detailDiagramPredict
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.proton.R
-import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.ActivityDetailDiagramPredictBinding
 import com.example.proton.model.ProductModel
-import com.example.proton.ui.managementDetailProduct.ManagementDetailProductActivity
 import com.example.proton.utils.DefaultFormat
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -59,8 +55,8 @@ class DetailDiagramPredictActivity : AppCompatActivity() {
 
             val legend = binding.lineChart.legend
             legend.isEnabled = true
-            legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER)
-            legend.setOrientation(Legend.LegendOrientation.HORIZONTAL)
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            legend.orientation = Legend.LegendOrientation.HORIZONTAL
             legend.setDrawInside(false)
 
             binding.lineChart.description.isEnabled = false

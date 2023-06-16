@@ -2,10 +2,9 @@ package com.example.proton
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -14,12 +13,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proton.adapter.ListPredictProductAdapter
-import com.example.proton.adapter.ListProductAdapter
-import com.example.proton.adapter.ListStoreAdapter
 import com.example.proton.databinding.ActivityMainBinding
 import com.example.proton.model.FakeProductDataSource
-import com.example.proton.model.FakeStoreDataSource
-import com.example.proton.model.ProductModel
 import com.example.proton.model.UserPreferences
 import com.example.proton.ui.DataSourceManager
 import com.example.proton.ui.login.LoginActivity
@@ -62,18 +57,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun logOut(view: View) {
-//        mainDataSource.logout()
+        mainDataSource.logout()
 
     }
 
     fun clickToManage(view: View) {
-        when{
-            view.id == binding.cardProduct.id ->{
+        when (view.id) {
+            binding.cardProduct.id -> {
                 val intent = Intent(  this, ManagementActivity::class.java)
                 startActivity(intent)
             }
-
-            view.id == binding.cardStore.id ->{
+            binding.cardStore.id -> {
                 val intent = Intent(  this, RecommendationActivity::class.java)
                 startActivity(intent)
             }

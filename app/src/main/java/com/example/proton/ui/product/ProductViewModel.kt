@@ -11,6 +11,6 @@ class ProductViewModel(private val repository: Repository): ViewModel() {
     lateinit var productPost: LiveData<Result<ResponseUploadProduct>>
 
     fun postProduct(data: ProductRequestBody) {
-        productPost = repository.postStory(data)
+        productPost = repository.postProduct(data)
     }
 }

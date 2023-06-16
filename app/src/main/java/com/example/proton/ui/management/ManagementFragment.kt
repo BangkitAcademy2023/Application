@@ -9,29 +9,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proton.MainActivity
 import com.example.proton.R
 import com.example.proton.adapter.ListProductAdapter
 import com.example.proton.adapter.ListStoreAdapter
 import com.example.proton.data.remote.Result
 import com.example.proton.data.remote.response.DataItem
 import com.example.proton.databinding.FragmentManagementBinding
-import com.example.proton.model.ProductModel
 import com.example.proton.model.StoreModel
-import com.example.proton.model.UserModel
 import com.example.proton.ui.ViewModelFactory
 import com.example.proton.ui.product.ProductActivity
 import com.example.proton.ui.recommendation.RecommendationActivity
-import com.example.proton.ui.store.StoreActivity
 import kotlinx.coroutines.launch
-
+@Suppress("UNCHECKED_CAST")
 class ManagementFragment : Fragment() {
 
     private val managementViewModel: ManagementViewModel by viewModels{
@@ -130,18 +125,40 @@ class ManagementFragment : Fragment() {
     private fun searching(status: Boolean) {
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Kosongkan atau biarkan sesuai kebutuhan
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Panggil fungsi search() di ManagementViewModel
                 Log.i("search", s.toString())
-                if (status) managementViewModel.searchProduct(s.toString())
-                else managementViewModel.searchStore(s.toString())
+                if (status){
+                    managementViewModel.searchProduct(s.toString())
+                    managementViewModel.listProduct.observe(this@ManagementFragment){ result ->
+                        when (result) {
+                            is Result.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                            }
+                            is Result.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                val data = result.data
+                                if(data.data != null){
+                                        val listProduct = data.data
+                                        binding.viewCard.setData(ListProductAdapter(listProduct as List<DataItem>))
+
+                                        binding.fabButton.setOnClickListener {
+                                            val intent = Intent(requireContext(), ProductActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                }
+                            }
+                            is Result.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(requireContext(), "Data Failed", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }else managementViewModel.searchStore(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // Kosongkan atau biarkan sesuai kebutuhan
             }
         })
     }

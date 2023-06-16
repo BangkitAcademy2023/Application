@@ -61,9 +61,6 @@ class ListPredictProductAdapter(private val listData: List<ProductModel>) : Recy
         holder.lineChart.data = LineData(kasusLineDataSet)
         holder.lineChart.animateXY(100, 500)
 
-
-
-
         holder.itemView.setOnClickListener {
             val intentDetail =Intent(holder.itemView.context, DetailDiagramPredictActivity::class.java)
             intentDetail.putExtra(DetailDiagramPredictActivity.DATA_PRODUCT, data)

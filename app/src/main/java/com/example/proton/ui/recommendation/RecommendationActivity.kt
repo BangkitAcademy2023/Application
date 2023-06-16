@@ -1,22 +1,22 @@
 package com.example.proton.ui.recommendation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proton.R
 import com.example.proton.adapter.ListRecommendationStoreAdapter
-import com.example.proton.adapter.ListStoreAdapter
 import com.example.proton.databinding.ActivityRecommendationBinding
 import com.example.proton.ui.ViewModelFactory
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class RecommendationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecommendationBinding
     private lateinit var storeViewModel: RecommendationViewModel

@@ -21,11 +21,14 @@ interface ApiService {
     ):Call<ResponseLogin>
 
     @GET("product")
-    fun getStories(): Call<ResponseProduct>
+    fun getAllProduct(): Call<ResponseProduct>
 
     @POST("product")
     fun postProduct(
         @Body requestBody: ProductRequestBody
     ): Call<ResponseUploadProduct>
+
+    @GET("product")
+    fun getProduct(@Query("name") name: String): Call<ResponseProduct>
 
 }

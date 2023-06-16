@@ -61,12 +61,18 @@ class Repository(
     }
 
     fun getAllProduct(): LiveData<Result<ResponseProduct>>{
-        return makeApiCall(apiService.getStories())
+        return makeApiCall(apiService.getAllProduct())
     }
 
-    fun postStory(data: ProductRequestBody): LiveData<Result<ResponseUploadProduct>>{
+    fun postProduct(data: ProductRequestBody): LiveData<Result<ResponseUploadProduct>>{
         return makeApiCall(apiService.postProduct(data))
     }
+
+    fun getSearchProduct(name: String): LiveData<Result<ResponseProduct>>{
+        return makeApiCall(apiService.getProduct(name))
+    }
+
+
 
 
 
